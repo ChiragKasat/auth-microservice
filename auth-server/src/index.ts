@@ -3,6 +3,7 @@ dotenv.config();
 import 'reflect-metadata';
 import express from 'express';
 import cors from 'cors';
+import morgan from 'morgan';
 
 import { signinRouter } from './routes/signin';
 import { signupRouter } from './routes/signup';
@@ -16,6 +17,7 @@ const main = async () => {
 
 		app.use(cors({ credentials: true }));
 		app.use(express.json());
+		app.use(morgan('dev'));
 
 		app.use('/api/auth', signinRouter);
 		app.use('/api/auth', signupRouter);
