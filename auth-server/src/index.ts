@@ -8,6 +8,8 @@ import { signinRouter } from './routes/signin';
 import { signupRouter } from './routes/signup';
 import { signoutRouter } from './routes/signout';
 
+import { errorHandler } from './middlewares/error-handler';
+
 const main = async () => {
 	try {
 		const app = express();
@@ -15,9 +17,11 @@ const main = async () => {
 		app.use(cors({ credentials: true }));
 		app.use(express.json());
 
-		app.use('/api', signinRouter);
-		app.use('/api', signupRouter);
-		app.use('/api', signoutRouter);
+		app.use('/api/auth', signinRouter);
+		app.use('/api/auth', signupRouter);
+		app.use('/api/auth', signoutRouter);
+
+		app.use(errorHandler);
 
 		const PORT = process.env.PORT;
 		app.listen(PORT, () => {
