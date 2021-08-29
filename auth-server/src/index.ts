@@ -2,6 +2,7 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 import 'reflect-metadata';
 import express from 'express';
+import 'express-async-errors';
 import cors from 'cors';
 import morgan from 'morgan';
 
@@ -10,6 +11,7 @@ import { signupRouter } from './routes/signup';
 import { signoutRouter } from './routes/signout';
 
 import { errorHandler } from './middlewares/error-handler';
+import { NotFoundError } from './errors/not-found-error';
 
 const main = async () => {
 	try {
@@ -22,6 +24,10 @@ const main = async () => {
 		app.use('/api/auth', signinRouter);
 		app.use('/api/auth', signupRouter);
 		app.use('/api/auth', signoutRouter);
+
+		app.all('*', async () => {
+			throw new NotFoundError();
+		});
 
 		app.use(errorHandler);
 
