@@ -5,6 +5,7 @@ import express from 'express';
 import 'express-async-errors';
 import cors from 'cors';
 import morgan from 'morgan';
+import { createConnection } from 'typeorm';
 
 import { signinRouter } from './routes/signin';
 import { signupRouter } from './routes/signup';
@@ -12,9 +13,24 @@ import { signoutRouter } from './routes/signout';
 
 import { errorHandler } from './middlewares/error-handler';
 import { NotFoundError } from './errors/not-found-error';
+import { User } from './entities/User';
+
+const isProd = process.env.NODE_ENV === 'production';
 
 const main = async () => {
 	try {
+		await createConnection({
+			type: 'postgres',
+			host: process.env.POSTGRES_HOST,
+			port: parseInt(process.env.POSTGRES_PORT!),
+			username: process.env.POSTGRES_USER,
+			password: process.env.POSTGRES_PASSWORD,
+			database: process.env.POSTGRES_DB,
+			synchronize: true,
+			logging: !isProd,
+			entities: [User]
+		});
+
 		const app = express();
 
 		app.use(cors({ credentials: true }));
