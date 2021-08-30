@@ -104,3 +104,5 @@ dist
 .tern-port
 
 ormconfig.json
+
+package-lock.json
