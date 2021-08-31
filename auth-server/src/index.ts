@@ -12,11 +12,13 @@ import cookieParser from 'cookie-parser';
 import { signinRouter } from './routes/signin';
 import { signupRouter } from './routes/signup';
 import { signoutRouter } from './routes/signout';
+import { refreshRouter } from './routes/refresh';
 
 import { errorHandler } from './middlewares/error-handler';
 import { NotFoundError } from './errors/not-found-error';
 import { User } from './entities/User';
 import { checkEnvironmentVariables } from './utils/checkEnvironmentVariables';
+import { userRouter } from './routes/user-info';
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -55,6 +57,8 @@ const main = async () => {
 		app.use('/api/auth', signinRouter);
 		app.use('/api/auth', signupRouter);
 		app.use('/api/auth', signoutRouter);
+		app.use('/api/auth', refreshRouter);
+		app.use('/api/auth', userRouter);
 
 		app.all('*', async () => {
 			throw new NotFoundError();
