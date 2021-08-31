@@ -13,7 +13,9 @@ export const checkEnvironmentVariables = () => {
 		'JWT_ACCESS_EXPIRE',
 		'JWT_REFRESH_SECRET',
 		'JWT_REFRESH_EXPIRE',
-		'COOKIE_NAME'
+		'REFRESH_COOKIE_NAME',
+		'ACCESS_COOKIE_NAME',
+		'REDIS_URI'
 	];
 
 	variables.forEach(variable => {
