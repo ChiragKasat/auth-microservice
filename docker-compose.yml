@@ -1,0 +1,48 @@
+version: '3'
+
+services:
+  auth-server:
+    container_name: auth-server
+    build: ./auth-server
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      NODE_ENV: development
+      PORT: ${AUTH_PORT:?No AUTH_PORT environment variable}
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: ${POSTGRES_USER:?No POSTGRES_USER environment variable}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?No POSTGRES_PASSWORD environment variable}
+      POSTGRES_DB: ${POSTGRES_DB:?No POSTGRES_DB environment variable}
+      JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET:?No JWT_ACCESS_SECRET environment variable}
+      JWT_ACCESS_EXPIRE: ${JWT_ACCESS_EXPIRE:?No JWT_ACCESS_EXPIRE environment variable}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:?No JWT_REFRESH_SECRET environment variable}
+      JWT_REFRESH_EXPIRE: ${JWT_REFRESH_EXPIRE:?No JWT_REFRESH_EXPIRE environment variable}
+      REFRESH_COOKIE_NAME: ${REFRESH_COOKIE_NAME:?No REFRESH_COOKIE_NAME environment variable}
+      ACCESS_COOKIE_NAME: ${ACCESS_COOKIE_NAME:?No ACCESS_COOKIE_NAME environment variable}
+      REDIS_URI: redis://redis:6379
+    ports:
+      - '3000:${AUTH_PORT:?No AUTH_PORT environment variable}'
+    volumes:
+      - ./auth-server:/usr/src/app
+      - /usr/src/app/node_modules
+
+  postgres:
+    container_name: postgres
+    image: postgres:13.4-alpine
+    ports:
+      - '5432:5432'
+    volumes:
+      - ../docker-dump/flam/postgresdata:/var/lib/postgresql/data
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:?No POSTGRES_USER environment variable}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?No POSTGRES_PASSWORD environment variable}
+      POSTGRES_DB: ${POSTGRES_DB:?No POSTGRES_DB environment variable}
+
+  redis:
+    container_name: redis
+    image: redis:6.2.5-alpine
+    ports:
+      - '6379:6379'
