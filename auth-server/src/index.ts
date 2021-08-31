@@ -44,7 +44,7 @@ const main = async () => {
 		app.use(cookieParser());
 		app.use(
 			cookieSession({
-				name: process.env.COOKIE_NAME,
+				name: process.env.REFRESH_COOKIE_NAME,
 				signed: false,
 				secure: isProd,
 				httpOnly: true,
