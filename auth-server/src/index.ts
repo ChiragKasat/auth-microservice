@@ -14,10 +14,13 @@ import { signoutRouter } from './routes/signout';
 import { errorHandler } from './middlewares/error-handler';
 import { NotFoundError } from './errors/not-found-error';
 import { User } from './entities/User';
+import { checkEnvironmentVariables } from './utils/checkEnvironmentVariables';
 
 const isProd = process.env.NODE_ENV === 'production';
 
 const main = async () => {
+	checkEnvironmentVariables();
+
 	try {
 		await createConnection({
 			type: 'postgres',
