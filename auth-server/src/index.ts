@@ -6,6 +6,7 @@ import 'express-async-errors';
 import cors from 'cors';
 import morgan from 'morgan';
 import { createConnection } from 'typeorm';
+import cookieSession from 'cookie-session';
 
 import { signinRouter } from './routes/signin';
 import { signupRouter } from './routes/signup';
@@ -39,6 +40,15 @@ const main = async () => {
 		app.use(cors({ credentials: true }));
 		app.use(express.json());
 		app.use(morgan('dev'));
+		app.use(
+			cookieSession({
+				name: process.env.COOKIE_NAME,
+				signed: false,
+				secure: isProd,
+				httpOnly: true,
+				sameSite: 'lax'
+			})
+		);
 
 		app.use('/api/auth', signinRouter);
 		app.use('/api/auth', signupRouter);
