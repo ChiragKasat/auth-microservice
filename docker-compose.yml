@@ -45,3 +45,13 @@ services:
       - '6379:6379'
     volumes:
       - ./redisdata:/data
+
+  test-server:
+    container_name: test-server
+    build: ./test-server
+    environment:
+      NODE_ENV: development
+      PORT: ${TEST_PORT:?No TEST_PORT environment variable}
+      JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET:?No JWT_ACCESS_SECRET environment variable}
+    ports:
+      - '4000:${TEST_PORT:?No TEST_PORT environment variable}'
