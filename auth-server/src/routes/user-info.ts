@@ -7,7 +7,6 @@ const router = Router();
 
 router.post('/user', async (req: Request, res: Response) => {
 	const cookie = req.cookies[process.env.ACCESS_COOKIE_NAME!];
-	console.log(cookie);
 
 	try {
 		const { id, email } = (await verify(
