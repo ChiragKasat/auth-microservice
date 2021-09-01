@@ -60,7 +60,7 @@ router.post(
 
 				redisClient.set(user.id.toString(), refreshToken);
 
-				return res.json({ ...payload });
+				return res.json({ ...payload, accessToken });
 			} catch (e) {
 				console.log(e);
 				throw new BadRequestError('Something went wrong');

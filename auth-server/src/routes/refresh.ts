@@ -22,11 +22,11 @@ router.post('/refresh', addCurrentUser, async (req: Request, res: Response) => {
 					httpOnly: true,
 					secure: process.env.NODE_ENV === 'production'
 				});
+				return res.json({ accessToken });
 			} else {
 				throw new UnauthorizedError('Please signin again');
 			}
 		}
-		return res.json({ id, email });
 	}
 });
 
