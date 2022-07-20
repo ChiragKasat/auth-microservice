@@ -1,8 +1,6 @@
-**Chirag Kasat**
+**Chirag Kasat** ([https://chiragkasat.com](https://chiragkasat.com/))
 
-[https://chiragkasat.com](https://chiragkasat.com/)
-
-Auth flow for single sign-on using refresh and access tokens
+### Auth flow for single sign-on using refresh and access tokens
 # **OVERVIEW**
 There are two server instances and a PostgreSQL as well as a Redis database instance, all dockerized. The **auth-server** implements the authentication workflow. The other **test-server** consists of just a single route to test the authorization of a restricted route by another server other than the main auth-server. I have tried including two of the backend projects in this single project as they blended well. The authentication workflow is explained in the Auth-Flow pdf attached.
 # **RUNNING THE PROJECT**
